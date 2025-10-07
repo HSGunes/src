@@ -41,15 +41,9 @@ def generate_launch_description():
         Node(
             package='controller_manager',
             executable='spawner',
-            arguments=['position_controller', '--controller-manager', '/controller_manager'],
+            arguments=['ackermann_steering_controller', '--controller-manager', '/controller_manager'],
             parameters=[{'use_sim_time': use_sim_time}],
         ),
-        Node(
-            package='controller_manager',
-            executable='spawner',
-            arguments=['velocity_controller', '--controller-manager', '/controller_manager'],
-            parameters=[{'use_sim_time': use_sim_time}],
-        )
     ]
 
     # --- Localization (EKF) ---
