@@ -1,0 +1,66 @@
+# Lane Detection and Following Parameters Configuration
+# Classic Computer Vision Pipeline Approach
+
+lane_detection_node:
+  ros__parameters:
+    # Classic CV Pipeline Parameters
+    
+    # Gaussian Blur Parameters
+    gaussian_kernel_size: 5        # Kernel size for Gaussian blur (must be odd)
+    
+    # Canny Edge Detection Parameters
+    canny_low_threshold: 50        # Lower threshold for Canny edge detection
+    canny_high_threshold: 150      # Upper threshold for Canny edge detection
+    
+    # Hough Transform Parameters
+    hough_threshold: 20            # Minimum votes for line detection
+    min_line_length: 40            # Minimum line length in pixels
+    max_line_gap: 20               # Maximum gap between line segments
+    
+    # Vehicle Control Parameters
+    base_speed: 0.8                # Base forward speed (m/s)
+    max_speed: 1.5                 # Maximum speed for straight sections
+    min_speed: 0.3                 # Minimum speed for sharp turns
+    max_angular_velocity: 1.0      # Maximum steering rate (rad/s)
+    
+    # PID Controller Parameters
+    kp: 1.0                        # Proportional gain
+    ki: 0.05                       # Integral gain
+    kd: 0.3                        # Derivative gain
+    
+    # Control Features
+    enable_speed_control: true     # Enable adaptive speed based on lane position
+    enable_smoothing: true         # Enable temporal smoothing of lane lines
+
+serial_controller:
+  ros__parameters:
+    # Serial Communication
+    serial_port: '/dev/ttyUSB0'
+    baud_rate: 115200
+    timeout: 1.0
+    
+    # Motor Control Scaling
+    max_linear_speed: 255          # Maximum PWM value for motors
+    max_angular_speed: 30.0        # Maximum steering angle in degrees
+    linear_scale_factor: 127.5     # Convert m/s to PWM (255/2 = 127.5)
+    angular_scale_factor: 30.0     # Convert rad/s to degrees
+    min_pwm_threshold: 30          # Minimum PWM to overcome friction
+    
+    # Input Limits
+    max_cmd_linear: 2.0            # Maximum accepted linear velocity
+    max_cmd_angular: 1.5           # Maximum accepted angular velocity
+
+# Parameter Tuning Guide:
+#
+# For better lane detection:
+# - Increase canny_low_threshold if too much noise
+# - Decrease canny_low_threshold if missing lane lines
+# - Adjust hough_threshold for line detection sensitivity
+# - Increase min_line_length to filter out short noise lines
+# - Adjust max_line_gap for broken lane lines
+#
+# For vehicle control:
+# - Increase kp for more responsive steering
+# - Increase kd to reduce oscillation
+# - Adjust base_speed for comfortable driving speed
+# - Set max_angular_velocity to limit steering rate 

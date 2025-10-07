@@ -1,0 +1,157 @@
+controller_server:
+  ros__parameters:
+    use_sim_time: True
+    controller_frequency: 20.0
+    min_x_velocity: 0.0
+    min_y_velocity: 0.0
+    min_theta_velocity: 0.0
+    max_x_velocity: 0.26
+    max_y_velocity: 0.0
+    max_theta_velocity: 1.0
+    acc_lim_x: 2.5
+    acc_lim_y: 0.0
+    acc_lim_theta: 3.2
+    decel_lim_x: -2.5
+    decel_lim_y: 0.0
+    decel_lim_theta: -3.2
+    controller_patience: 5.0
+    planner_patience: 5.0
+    oscillation_timeout: 10.0
+    oscillation_distance: 0.02
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    
+    controller_plugins: ["FollowPath"]
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      vx_samples: 20
+      vy_samples: 5
+      vtheta_samples: 20
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      GoalAlign:
+        scale: 0.0
+        forward_point_distance: 0.325
+      PathAlign:
+        scale: 32.0
+        forward_point_distance: 0.325
+      PathDist:
+        scale: 32.0
+      GoalDist:
+        scale: 24.0
+      BaseObstacle:
+        scale: 0.02
+      Oscillation:
+        oscillation_reset_dist: 0.05
+        oscillation_reset_angle: 0.2
+
+planner_server:
+  ros__parameters:
+    use_sim_time: True
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.5
+      use_astar: false
+      allow_unknown: true
+
+local_costmap:
+  ros__parameters:
+    update_frequency: 5.0
+    publish_frequency: 2.0
+    global_frame: odom
+    robot_base_frame: base_link
+    use_sim_time: True
+    rolling_window: true
+    width: 3
+    height: 3
+    resolution: 0.05
+    robot_radius: 0.2
+    plugins: ["obstacle_layer", "inflation_layer"]
+    obstacle_layer:
+      plugin: "nav2_costmap_2d::ObstacleLayer"
+      enabled: True
+      observation_sources: scan
+      scan:
+        topic: /scan
+        max_obstacle_height: 2.0
+        clearing: True
+        marking: True
+        data_type: "LaserScan"
+        raytrace_max_range: 3.0
+        raytrace_min_range: 0.0
+        obstacle_max_range: 2.5
+        obstacle_min_range: 0.0
+    inflation_layer:
+      plugin: "nav2_costmap_2d::InflationLayer"
+      cost_scaling_factor: 3.0
+      inflation_radius: 0.55
+
+global_costmap:
+  ros__parameters:
+    update_frequency: 1.0
+    publish_frequency: 1.0
+    global_frame: odom
+    robot_base_frame: base_link
+    use_sim_time: True
+    rolling_window: true
+    width: 10
+    height: 10
+    resolution: 0.05
+    robot_radius: 0.2
+    track_unknown_space: true
+    plugins: ["obstacle_layer", "inflation_layer"]
+    obstacle_layer:
+      plugin: "nav2_costmap_2d::ObstacleLayer"
+      enabled: True
+      observation_sources: scan
+      scan:
+        topic: /scan
+        max_obstacle_height: 2.0
+        clearing: True
+        marking: True
+        data_type: "LaserScan"
+    inflation_layer:
+      plugin: "nav2_costmap_2d::InflationLayer"
+      cost_scaling_factor: 3.0
+      inflation_radius: 0.55
+
+nav2_lifecycle_manager:
+  ros__parameters:
+    use_sim_time: True
+    autostart: True
+    node_names:
+      - planner_server
+      - controller_server
+      - behavior_server
+      - smoother_server
+      - waypoint_follower
+
+behavior_server:
+  ros__parameters:
+    use_sim_time: True
+    behavior_plugins: ["spin", "backup", "wait"]
+    spin:
+      plugin: "nav2_behaviors/Spin"
+    backup:
+      plugin: "nav2_behaviors/BackUp"
+    wait:
+      plugin: "nav2_behaviors/Wait"
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: True
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      smoother_frequency: 10.0
+
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: True
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 2 
