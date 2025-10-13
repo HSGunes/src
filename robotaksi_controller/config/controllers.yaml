@@ -1,40 +1,22 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100
-    use_sim_time: true
+    update_rate: 100  # Hz
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
     ackermann_steering_controller:
       type: ackermann_steering_controller/AckermannSteeringController
+      # URDF'deki eklem isimleri
+      front_steering_joint_names: ["left_front_steering_joint", "right_front_steering_joint"]
+      rear_wheels_joint_names: ["left_back", "right_back"]
 
-ackermann_steering_controller:
-  ros__parameters:
-    # Denetleyici davranışı
-    use_stamped_vel: true
-    reference_timeout: 0.5
-    front_steering: true
-    open_loop: false
-    position_feedback: true
-    velocity_rolling_window_size: 10
-
-    # Eklem isimleri (URDF ile uyumlu)
-    front_wheels_names: [left_front_steering_joint, right_front_steering_joint]
-    rear_wheels_names: [left_back, right_back]
-
-    # Geometri (URDF'ten ölç → geçici değerler)
-    wheelbase: 1.4
-    front_wheel_track: 1.21
-    rear_wheel_track: 1.21
-    front_wheels_radius: 0.1
-    rear_wheels_radius: 0.1
-
-twist_filter:
-  ros__parameters:
-    max_speed: 5.0
-    max_angular_velocity: 3.0
-    command_timeout: 0.5
-    accel_limit_linear: 1.0
-    decel_limit_linear: 2.0
-    accel_limit_angular: 1.5
+      # Robot geometrisi (URDF'den hesaplanan değerler)
+      # Dingil mesafesi (ön ve arka tekerlekler arası x eksenindeki mesafe)
+      wheelbase: 1.4 # (0.725318 - (-0.674682))
+      # Ön tekerlek iz genişliği (ön tekerlekler arası y eksenindeki mesafe)
+      front_wheel_track: 1.212299 # (0.705779 + 0.50652)
+      # Arka tekerlek iz genişliği
+      rear_wheel_track: 1.212299
+      # Tekerlek yarıçapı
+      wheel_radius: 0.3

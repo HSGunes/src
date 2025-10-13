@@ -2,10 +2,10 @@ twist_filter_node:
   ros__parameters:
     # Velocity and acceleration limits
     # From twist_filter_node
-    linear_velocity_max: 1.0  # m/s
-    angular_velocity_max: 1.5 # rad/s
+    linear_velocity_max: 0.5  # m/s
+    angular_velocity_max: 0.5 # rad/s
     linear_acceleration_max: 0.2  # m/s^2
-    angular_acceleration_max: 0.5 # rad/s^2
+    angular_acceleration_max: 0.005 # rad/s^2
     
     # From ackermann_drive_controller
     wheelbase: 1.400 # meters
