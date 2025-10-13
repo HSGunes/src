@@ -41,7 +41,7 @@
 
 <!-- System Plugins -->
 <gazebo>
-    <!-- ROS 2 Humble -->
+  
     <xacro:if value="$(arg is_ignition)">
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find robotaksi_controller)/config/controllers.yaml</parameters>
@@ -52,7 +52,7 @@
       </plugin>
     </xacro:if>
 
-    <!-- ROS 2 Iron or above -->
+   
     <xacro:unless value="$(arg is_ignition)">
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find robotaksi_controller)/config/controllers.yaml</parameters>

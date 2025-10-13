@@ -9,7 +9,7 @@ twist_filter_node:
     
     # From ackermann_drive_controller
     wheelbase: 1.400 # meters
-    wheel_radius: 0.3 # meters
+    wheel_radius: 0.281 # meters
 
     # Topics
     # Subscribes to /cmd_vel and publishes to /ackermann_steering_controller/reference
