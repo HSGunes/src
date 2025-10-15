@@ -5,37 +5,37 @@
 
 <gazebo reference="base_link">
   <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1.2</mu1>
+  <mu2>1.2</mu2>
   <self_collide>false</self_collide>
   <gravity>true</gravity>
 </gazebo>
 
 <gazebo reference="right_front_wheel_1">
   <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1.2</mu1>
+  <mu2>1.2</mu2>
   <self_collide>false</self_collide>
 </gazebo>
 
 <gazebo reference="right_back_wheel_1">
   <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>100000.2</mu1>
+  <mu2>100000.2</mu2>
   <self_collide>false</self_collide>
 </gazebo>
 
 <gazebo reference="left_back_wheel_1">
   <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1000000.2</mu1>
+  <mu2>1000000.2</mu2>
   <self_collide>false</self_collide>
 </gazebo>
 
 <gazebo reference="left_front_wheel_1">
   <material>${body_color}</material>
-  <mu1>0.2</mu1>
-  <mu2>0.2</mu2>
+  <mu1>1.2</mu1>
+  <mu2>1.2</mu2>
   <self_collide>false</self_collide>
 </gazebo>
 

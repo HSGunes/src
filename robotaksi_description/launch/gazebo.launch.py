@@ -19,10 +19,13 @@ def generate_launch_description():
     # Gazebo'nun kendi modellerini ve bizim modellerimizi bulabilmesi için ortam değişkenini ayarla
     # Bu, 'libgz_ros2_control.so' gibi eklentilerin bulunması için KRİTİKTİR.
     pkg_path = get_package_share_directory('robotaksi_description')
+    model_path = os.path.join(pkg_path, '..')
+    model_path += pathsep + os.path.join(pkg_path, 'models')
+
     gazebo_resource_path = SetEnvironmentVariable(
-        name='GZ_SIM_RESOURCE_PATH',
-        value=os.path.join(pkg_path, '..') + pathsep + os.environ.get('GZ_SIM_RESOURCE_PATH', '')
-    )
+        "GZ_SIM_RESOURCE_PATH",
+        model_path + pathsep + os.environ.get('GZ_SIM_RESOURCE_PATH', '')
+        )
     robot_description_config = xacro.process_file(xacro_file, mappings={'use_sim_time': 'true'})
     robot_urdf = robot_description_config.toxml()
 
